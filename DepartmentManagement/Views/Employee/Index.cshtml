@@ -1,0 +1,162 @@
+﻿@model ReflectionIT.Mvc.Paging.PagingList<Employee>
+
+<br />
+<br />
+<div class="p-4 bg-white">
+
+    <form method="get" class="form-inline m-2">
+        <input name="filter" class="form-control" placeholder="Фамилия сотрудника..." value="@Model.RouteValue["Filter"]" />
+        <button type="submit" class="btn btn-success ml-1">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            Пойск
+        </button>
+        <a class="btn btn-danger ml-1" asp-action="Index">
+            Обновить
+        </a>
+    </form>
+
+    <div class="row">
+        <div class="col-9">
+            <h2 class="text-info">Список всех сотрудников</h2>
+        </div>
+        @if (User.IsInRole(Common.AdminRole))
+        {
+            <div class="col-3 text-right">
+                <a asp-action="Upsert" class="btn btn-info form-control"> Добавить </a>
+            </div>
+        }
+    </div>
+
+    <div>
+        @if (Model != null)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">
+
+                        </th>
+                        <th scope="col">
+                            ФИО
+                        </th>
+                        <th scope="col">
+                            ИИН
+                        </th>
+                        <th scope="col">
+                            Номера телефона
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">
+                                @if (item.ImageUrl != null)
+                                {
+                                    <img class="card-img-top" style="width:50px;height:50px;" src="@item.ImageUrl" alt="Card image cap">
+                                }
+                                else
+                                {
+                                    <img class="card-img-top" style="width:50px;height:50px;" src="~/images/employee/emp.jpg" alt="Card image cap">
+                                }
+                            </th>
+                            <td>
+                                @item.FirstName @item.MiddleName @item.LastName
+                            </td>
+                            <td>
+                                @item.IIN
+                            </td>
+                            <td>
+                                @item.Phone, @item.MobilePhone
+                            </td>
+                            <td>
+                                @if (User.IsInRole(Common.AdminRole))
+                                {
+                                    @*<a class="btn btn-primary text-white" asp-action="Upsert" asp-route-Id="@item.Id">
+                                            Редактировать
+                                        </a>
+                                        <a class="btn btn-danger text-white" asp-action="Delete" asp-route-Id="@item.Id">
+                                            Удалить
+                                        </a>*@
+                                    <form asp-action="Delete" asp-route-Id="@item.Id" method="post">
+                                        <a class="btn btn-warning text-white" asp-action="Upsert" asp-route-Id="@item.Id">
+                                            Редактировать
+                                        </a>
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Подтвердите удаление:')">
+                                            Удалить
+                                        </button>
+                                    </form>
+                                }
+
+                                <a class="btn btn-primary text-white" asp-action="Details" asp-route-Id="@item.Id">
+                                    Карточка сотрудника
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+            @*<div class="row pb-5">
+                    @foreach (var item in Model.OrderByDescending(x => x.Id))
+                    {
+                        <div class="col-lg-4 col-md-9 mb-4">
+                            <div class="card text-black-50">
+
+                                <div class="card-header">
+                                    <p>
+                                        @item.FirstName @item.MiddleName
+                                    </p>
+                                    <p>
+                                        @item.IIN
+                                    </p>
+                                </div>
+
+                                <img class="card-img-top" src="@item.ImageUrl" alt="Card image cap">
+
+                                <div class="card-body">
+                                    <h5>
+                                        Cabinet phone: @item.Phone
+                                    </h5>
+                                    <h5>
+                                        Mobile phone: @item.MobilePhone
+                                    </h5>
+                                </div>
+
+                                <div class="card-footer">
+
+                                    @if (User.IsInRole(Common.AdminRole))
+                                    {
+                                        <a class="btn btn-primary text-white" asp-action="Upsert" asp-route-Id="@item.Id">
+                                            Edit
+                                        </a>
+                                        <a class="btn btn-danger text-white" asp-action="Delete" asp-route-Id="@item.Id">
+                                            Delete
+                                        </a>
+                                    }
+
+                                    <a class="btn btn-primary text-white" asp-action="Details" asp-route-Id="@item.Id">
+                                        Details
+                                    </a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                </div>*@
+        }
+        else
+        {
+            <p>No data exists...</p>
+        }
+    </div>
+    <nav aria-label="Suppliers navigation example">
+        <h5>@await this.Component.InvokeAsync("Pager", new { pagingList = this.Model })</h5>
+    </nav>
+</div>

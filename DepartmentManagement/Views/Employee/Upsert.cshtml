@@ -1,0 +1,157 @@
+﻿@model Employee
+
+@{
+    var title = "Добавить";
+}
+
+
+<br />
+<br />
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        <div class="row p-2 border" style="margin-top:10%;">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @if (Model.Id != 0)
+            {
+                // Edit
+                title = "Редактировать";
+                <input type="hidden" asp-for="Id" />
+            }
+
+            <div class="col-12 border-bottom">
+                <h3>@title</h3>
+            </div>
+
+            <div class="col-12 pt-4">
+
+                @if (Model.Id != 0)
+                {
+                    <div class="form-group row p-2">
+                        <img src="@Model.ImageUrl" />
+                        <input hidden asp-for="ImageUrl" />
+                    </div>
+                }
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="FirstName"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="MiddleName"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="MiddleName" class="form-control" />
+                        <span asp-validation-for="MiddleName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="LastName"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="IIN"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="IIN" class="form-control" />
+                        <span asp-validation-for="IIN" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Phone"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="MobilePhone"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="MobilePhone" class="form-control" />
+                        <span asp-validation-for="MobilePhone" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Email"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        Фото
+                    </div>
+                    <div class="col-8">
+                        <input type="file" name="files" id="uploadBox" multiple class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-8 offset-4">
+                        @if (Model.Id != 0)
+                        {
+                            <button type="submit" class="btn btn-primary form-control">
+                                Редактировать
+                            </button>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col">
+                                    <button type="submit" onclick="return validateInput()" class="btn btn-sm btn-outline-success form-control">
+                                        Добавить
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <a asp-action="Index" class="btn btn-sm btn-outline-primary form-control text-center">Назад</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        function validateInput() {
+            if (document.getElementById("uploadBox").value == "") {
+                swal("Error", "Please select an image", "error");
+                return false;
+            }
+            return true;
+        }
+
+    </script>
+}

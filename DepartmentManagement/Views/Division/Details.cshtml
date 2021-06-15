@@ -1,0 +1,102 @@
+﻿@model DivisionEmployeeViewModel
+
+
+<br />
+<br />
+<div class="container">
+
+    <div class="card">
+        <div class="card-header">
+            @foreach (var dep in Model.DepartmentList)
+            {
+                @if (dep.Id == Model.Division.DepartmentId)
+                {
+                    <h3 class="text-center mb-3">
+                        Департамент:
+                        <span>
+                            @dep.Name
+                        </span>
+                    </h3>
+                }
+            }
+            <h5>
+                @Model.Division.Name
+            </h5>
+            
+            <p>
+                Кабинет:
+                <strong>
+                    @Model.Division.CabinetNumber
+                </strong>
+            </p>
+            <p>
+                Телефон:
+                <strong>
+                    @Model.Division.PhoneNumber
+                </strong>
+            </p>
+
+        </div>
+        <div class="card-body">
+            @if (Model.DivisionEmployeeList != null)
+            {
+                <div>
+                    <h5>
+                        Сотрудники
+                    </h5>
+                    @foreach (var emp in Model.DivisionEmployeeList)
+                    {
+                        <p>
+                            <span class="badge border">
+                                <a asp-controller="employee" asp-action="details" asp-route-Id="@emp.Employee.Id">
+
+                                    @if (@emp.Employee.ImageUrl != null)
+                                    {
+                                        <img src="@emp.Employee.ImageUrl" style="width:50px;height:50px;" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/employee/emp.jpg" style="width:50px;height:50px;" />
+                                    }
+
+                                    @emp.Employee.FirstName @emp.Employee.MiddleName @emp.Employee.LastName
+
+                                    @foreach (var position in Model.EmployeePositionList)
+                                    {
+                                        @if (emp.Employee_Id == position.Employee_Id)
+                                        {
+                                            <span class="badge badge-warning">
+                                                @position.Position.Name
+                                            </span>
+                                        }
+                                    }
+                                </a>
+                            </span>
+                        </p>
+                    }
+                </div>
+            }
+            else
+            {
+                <p>
+                    No Employee
+                </p>
+            }
+        </div>
+
+    </div>
+
+    <div class="mt-3">
+        @if (User.IsInRole(Common.AdminRole))
+        {
+            <a class="btn btn-primary text-white" asp-action="manageemployees" asp-route-Id="@Model.Division.Id">
+                Сотрудники
+            </a>
+        }
+
+        <a asp-action="Index" class="btn btn-primary">
+            Назад
+        </a>
+    </div>
+
+</div>  

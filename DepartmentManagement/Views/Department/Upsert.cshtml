@@ -1,0 +1,110 @@
+﻿@model Department
+
+@{
+    var title = "Добавить";
+}
+
+<br />
+<br />
+<form method="post">
+    <div class="row p-3 border">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        @if (Model.Id != 0)
+        {
+            //edit
+            title = "Редактировать";
+        }
+
+        <div class="col-12 border-bottom">
+            <h2 class="text-primary">@title</h2>
+        </div>
+
+        <div class="col-8 pt-4">
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="City"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Address"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="EmailAddress"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="EmailAddress" class="form-control" />
+                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="MainPhone"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="MainPhone" class="form-control" />
+                    <span asp-validation-for="MainPhone" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="BIN"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="BIN" class="form-control" />
+                    <span asp-validation-for="BIN" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-4 offset-4">
+                    @if (Model.Id == 0)
+                    {
+                        <button type="submit" class="btn btn-primary form-control">Добавить</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary form-control">Редактировать</button>
+                    }
+                </div>
+
+                <div class="col-4">
+                    <a asp-action="Index" class="btn btn-success form-control">Назад</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+}
